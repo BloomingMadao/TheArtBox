@@ -1,3 +1,4 @@
+<?php include_once('oeuvres.php');?>
 <?php include('header.php');?>
         <div id="liste-oeuvres">
             <article class="oeuvre">
