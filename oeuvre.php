@@ -1,25 +1,36 @@
 <?php
-    require 'header.php';
-    require 'oeuvres.php';
+    include('header.php');
+    include('bdd.php');
+
+    // $mysqlClient = connexion();
+    // $oeuvresStatement = $mysqlClient->query('SELECT * FROM oeuvres');
+
+    // $oeuvres = $oeuvresStatement->fetchAll(PDO::FETCH_ASSOC);
+
+
+
 
     // Si l'URL ne contient pas d'id, on redirige sur la page d'accueil
     if(empty($_GET['id'])) {
         header('Location: index.php');
     }
 
-    $oeuvre = null;
 
-    // On parcourt les oeuvres du tableau afin de rechercher celle qui a l'id précisé dans l'URL
-    foreach($oeuvres as $o) {
-        // intval permet de transformer l'id de l'URL en un nombre (exemple : "2" devient 2)
-        if($o['id'] === intval($_GET['id'])) {
-            $oeuvre = $o;
-            break; // On stoppe le foreach si on a trouvé l'oeuvre
-        }
-    }
+    $mysqlClient = connexion();
+    $oeuvresStatement = $mysqlClient->prepare("SELECT * FROM oeuvres WHERE id = :id");
+    $oeuvresStatement->execute([
+        'id' => (int)$_GET['id'],
+        ]);
+    $oeuvre = $oeuvresStatement->fetch(PDO::FETCH_ASSOC);
+
+    //DEBUG
+    // echo '<pre>';
+
+    // print_r($oeuvre);
+    // echo '</pre>';
 
     // Si aucune oeuvre trouvé, on redirige vers la page d'accueil
-    if(is_null($oeuvre)) {
+    if(is_null($oeuvre) || empty($oeuvre)) {
         header('Location: index.php');
     }
 ?>
@@ -37,4 +48,4 @@
     </div>
 </article>
 
-<?php require 'footer.php'; ?>
+<?php include('footer.php'); ?>

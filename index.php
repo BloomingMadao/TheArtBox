@@ -1,5 +1,6 @@
 <?php
 include('bdd.php');
+include('header.php');
 $mysqlClient = connexion();
 $oeuvresStatement = $mysqlClient->query('SELECT * FROM oeuvres');
 $oeuvres = $oeuvresStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -10,7 +11,6 @@ $oeuvres = $oeuvresStatement->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<?php include('header.php'); ?>
 <div id="liste-oeuvres">
     <?php foreach ($oeuvres as $oeuvre) : ?>
         <article class="oeuvre">
