@@ -1,4 +1,15 @@
-<?php include('oeuvres.php'); ?>
+<?php
+include('bdd.php');
+$mysqlClient = connexion();
+$oeuvresStatement = $mysqlClient->query('SELECT * FROM oeuvres');
+$oeuvres = $oeuvresStatement->fetchAll(PDO::FETCH_ASSOC);
+
+// echo '<pre>';
+// print_r($oeuvres);
+// echo '</pre>';
+
+?>
+
 <?php include('header.php'); ?>
 <div id="liste-oeuvres">
     <?php foreach ($oeuvres as $oeuvre) : ?>
