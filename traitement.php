@@ -2,6 +2,15 @@
  include('bdd.php');
  include('header.php');
 $postData = $_POST;
+$fileData = $_FILES;
+$fileInfo = pathinfo($fileData['img']['name']);
+$path = './img/';
+$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+// echo '<pre>';
+// print_r($postData);
+// print_r($fileData);
+// echo '</pre>';
+
 
 /** On vérifie que tous les champs sont présents, non vides et que la description fait au moins 3 caractères. 
  * Si ce n'est pas le cas, on affiche un message d'erreur et on arrête le script.
@@ -9,22 +18,34 @@ $postData = $_POST;
 if (
     !isset($postData['title']) ||
     !isset($postData['author']) ||
-    !isset($postData['img']) ||
     !isset($postData['description']) ||
     empty($postData['title']) ||
     empty($postData['author']) ||
-    empty($postData['img']) ||
-    empty($postData['description']) ||
-    strlen($postData['description']) < 3 ||
-    !filter_var($postData['img'], FILTER_VALIDATE_URL)
+    empty($postData['description'])  
+
     ){
         echo 'Tous les champs sont obligatoires et la description doit faire au moins 3 caractères.';
         return;
     }
+    else if(!isset($fileData['img']) || 
+    $fileData['img']['error'] !== 0 ||
+    $fileData['img']['size'] > 5000000 ||
+    !in_array($fileInfo['extension'], $allowedExtensions)
+    ){
+        echo 'Une erreur est survenue lors du téléchargement de l\'image.';
+        return;
+    }
     else {
+        if (!is_dir($path)) {
+            header('Location: index.php');
+            exit;
+        }
+        $fullPath = $path . basename($fileData['img']['name']);
+
+        move_uploaded_file($fileData['img']['tmp_name'], $fullPath);
         $author = htmlspecialchars($postData['author']);
         $title = htmlspecialchars($postData['title']);
-        $img = htmlspecialchars($postData['img']);
+        $img = htmlspecialchars($fullPath);
         $description = htmlspecialchars($postData['description']);
 
         $mysqlClient = connexion();
