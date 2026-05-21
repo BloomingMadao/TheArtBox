@@ -14,7 +14,8 @@ if (
     empty($postData['author']) ||
     empty($postData['img']) ||
     empty($postData['description']) ||
-    strlen($postData['description']) < 3
+    strlen($postData['description']) < 3 ||
+    !filter_var($postData['img'], FILTER_VALIDATE_URL)
     ){
         echo 'Tous les champs sont obligatoires et la description doit faire au moins 3 caractères.';
         return;
