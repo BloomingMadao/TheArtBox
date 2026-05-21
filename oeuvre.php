@@ -2,12 +2,6 @@
     include('header.php');
     include('bdd.php');
 
-    // $mysqlClient = connexion();
-    // $oeuvresStatement = $mysqlClient->query('SELECT * FROM oeuvres');
-
-    // $oeuvres = $oeuvresStatement->fetchAll(PDO::FETCH_ASSOC);
-
-
 
 
     // Si l'URL ne contient pas d'id, on redirige sur la page d'accueil
