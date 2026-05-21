@@ -35,7 +35,7 @@ if (
             'img' => $img,
             'description' => $description
         ]);
-        echo 'Oeuvre ajoutée avec succès !';
+        header('Location: oeuvre.php?id=' . $mysqlClient->lastInsertId());
     }
 
 ?>
