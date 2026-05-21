@@ -1,5 +1,6 @@
 <?php
-
+ include('bdd.php');
+ include('header.php');
 $postData = $_POST;
 
 /** On vérifie que tous les champs sont présents, non vides et que la description fait au moins 3 caractères. 
@@ -20,13 +21,25 @@ if (
         echo 'Tous les champs sont obligatoires et la description doit faire au moins 3 caractères.';
         return;
     }
+    else {
+        $author = htmlspecialchars($postData['author']);
+        $title = htmlspecialchars($postData['title']);
+        $img = htmlspecialchars($postData['img']);
+        $description = htmlspecialchars($postData['description']);
 
-$author = htmlspecialchars($postData['author']);
-$title = htmlspecialchars($postData['title']);
-$img = htmlspecialchars($postData['img']);
-$description = htmlspecialchars($postData['description']);
+        $mysqlClient = connexion();
+        $insertStatement = $mysqlClient->prepare("INSERT INTO oeuvres (title, author, img, description) VALUES (:title, :author, :img, :description)");
+        $insertStatement->execute([
+            'title' => $title,
+            'author' => $author,
+            'img' => $img,
+            'description' => $description
+        ]);
+        echo 'Oeuvre ajoutée avec succès !';
+    }
 
-echo '<pre>';
-print_r($postData);
-echo '</pre>';
+?>
+
+<?php include('footer.php'); ?>
+
 
