@@ -11,6 +11,18 @@ $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 // print_r($fileData);
 // echo '</pre>';
 
+// $champsRequis = ['title', 'author', 'description'];
+
+// foreach ($champsRequis as $champ) {
+//     if (!isset($postData[$champ]) || empty($postData[$champ])) {
+//         echo 'Tous les champs sont obligatoires.';
+//         return;
+//     } else if ($champ === 'description' && strlen($postData[$champ]) < 3) {
+//         echo 'La description doit faire au moins 3 caractères.';
+//         return;
+//     }
+// }
+
 
 /** On vérifie que tous les champs sont présents, non vides et que la description fait au moins 3 caractères. 
  * Si ce n'est pas le cas, on affiche un message d'erreur et on arrête le script.
